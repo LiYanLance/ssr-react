@@ -5,7 +5,7 @@ import express from 'express'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
-import App from '../App'
+import App from '../src/App'
 
 const PORT = 8080
 const app = express()
@@ -13,7 +13,7 @@ const app = express()
 const router = express.Router()
 
 const serverRenderer = (req, res, next) => {
-  fs.readFile(path.resolve('../../public/index.html'), 'utf8', (err, data) => {
+  fs.readFile(path.resolve('./build/index.html'), 'utf8', (err, data) => {
     if (err) {
       console.error(err)
       return res.status(500).send('An error occurred')
@@ -29,7 +29,7 @@ const serverRenderer = (req, res, next) => {
 router.use('^/$', serverRenderer)
 
 router.use(
-  express.static(path.resolve(__dirname, '../..', 'public'), { maxAge: '30d' })
+  express.static(path.resolve(__dirname, '..', 'public'), { maxAge: '30d' })
 )
 
 // tell the app to use the above rules
